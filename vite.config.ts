@@ -1,11 +1,14 @@
 import { defineConfig } from 'vite'
-import Inspect from 'vite-plugin-inspect'
 import { DevTools } from '@vitejs/devtools' 
 
 export default defineConfig({
 	base: './',
   plugins: [
     DevTools(),
-    Inspect()
   ],
+	  define: {
+    __VUE_OPTIONS_API__: false, 
+    __VUE_PROD_DEVTOOLS__: false,
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
+  },
 })
