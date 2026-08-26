@@ -15,7 +15,7 @@ export default defineConfig([
 		},
 		extends: [unicorn.configs.recommended],
 		rules: {
-
+			 "max-lines-per-function": ["error", { "max": 40 }]
 		},
 	},
 ]);

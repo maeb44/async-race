@@ -1,0 +1,121 @@
+@mixin flexcenter{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+$white-font :#fff;
+$car-name : #f0e40b;
+$control-btn : #c4b4b4;
+$btn-color : linear-gradient(60deg,rgb(140, 80, 114),rgb(224, 156, 166),rgb(248, 208, 231));
+$btn-color-hover : linear-gradient(60deg,rgb(248, 208, 231),rgb(224, 156, 166),rgb(140, 80, 114));
+$main-font : Roboto;
+$font-color : #1f0788;
+$road-size : calc(100vw - 2rem);
+
+
+.garage_div{
+	gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	.page_p{
+		padding: 1.5rem 0;
+		color: #fff;
+		font-weight: 600;
+		font-size: 2.2rem;
+	}
+}
+
+.car_wrapper{
+	position: relative;
+	height: 7rem;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-direction: column;
+	gap: 0.5rem;
+	&::after{
+		left: 0rem;
+		content: '';
+		position: absolute;
+		width: $road-size;
+		border-bottom: 3px dashed white;
+		height: 10px;
+		bottom: 0px
+	}
+	&::before{
+		content: '\1f6a9';
+		right: 8rem;
+		position: absolute;
+		font-size: 3rem;
+		bottom: 0px
+	}
+}
+
+.car_control{
+	@include flexcenter();
+	gap: 1rem;
+	button{
+		@include flexcenter();
+		width: 7rem;
+		background:$btn-color;
+		border: none;
+		height: 1.8rem;
+		border-radius: 3px;
+		text-transform: uppercase;
+		font-size: 1rem;
+		background-size: 200% 200%;
+ 	  background-position: 0% 0%;
+  	transition: background-position 0.5s ease;
+
+		&:hover{
+			background-position: 200% 200%;
+		}
+	}
+	p{
+		color: $car-name;
+	}
+}
+
+.engine_control{
+	@include flexcenter();
+	gap: 0.3rem;
+	button{
+		@include flexcenter();
+		border-radius: 3px;
+		width: 2rem;
+		background: transparent;
+		border: 2px solid;
+		height: 1.8rem;
+	}
+}
+
+ .start-engine{
+	color: rgba(172, 255, 47, 0.822); 
+	border-color: rgba(172, 255, 47, 0.822);
+	&:hover{
+		box-shadow: 0px 0px 3px 2px rgba(172, 255, 47, 0.386);;
+	}
+}
+
+.stop-engine{
+	color: rgba(210, 11, 11, 0.928);
+	border-color: rgba(210, 11, 11, 0.928);
+	&:hover{
+		box-shadow: 0px 0px 3px 2px rgba(210, 11, 11, 0.386);;
+	}
+}
+.car{
+	position: absolute;
+	bottom: -6px;
+	color: rgb(167, 61, 61);
+	.car-icon{
+		width: 300px;
+		height: 300px;
+	}
+}
+button:disabled {
+    color: #9e9e9e;
+    border-color: #bdbdbd;
+		pointer-events: none;
+}

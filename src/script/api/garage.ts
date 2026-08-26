@@ -1,10 +1,10 @@
 import { GARAGE_URL } from "../constant-varible.js";
 import type { Car } from "../constant-varible.js";
 import type { CarParameters } from "../constant-varible.js";
+import type { ApiResponse } from "../constant-varible.js";
 
 
-
-export async function getCars( page:number = 1, limit:number = 7):Promise<Car[]>{
+export async function getCars( page:number = 1, limit:number = 7):Promise<ApiResponse<Car>>{
 	try{
 		const url = GARAGE_URL;
 		const carURL = new URL(`${url}`)
@@ -17,8 +17,14 @@ export async function getCars( page:number = 1, limit:number = 7):Promise<Car[]>
 		if(!response.ok){
 			throw new Error(`HTTP ошибка: ${response.status}`)
 		}
-		const data = await response.json()
-		return data; 
+		const data:Car[] = await response.json()
+		const totalCars:number = Number(await response.headers.get('X-Total-Count')) || 0;
+		
+		return {
+			data,
+			total:totalCars,
+			page: page,
+		}; 
 	}
 	catch(error){
 		console.error(`Ошибка в getCars:`,error)
@@ -126,6 +132,8 @@ export async function deleteCarById(id:number | string ):Promise<boolean>{
 		throw(error)
 	}
 }
+
+
 
 
 

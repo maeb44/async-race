@@ -1,0 +1,121 @@
+.winners_div {
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    
+    .page_p {
+        padding: 1.5rem 0;
+        color: #fff;
+        font-weight: 600;
+        font-size: 2.2rem;
+    }
+}
+
+.table_wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+/* ---------- СИНХРОНИЗАЦИЯ ТАБЛИЦ ---------- */
+/* Скрываем все строки в numbers_table */
+.numbers_table tr {
+    display: none;
+}
+
+/* Если winners_table имеет строки, показываем соответствующие строки в numbers_table */
+.table_wrapper:has(.winners_table tr:nth-child(1)) .numbers_table tr:nth-child(1) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(2)) .numbers_table tr:nth-child(2) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(3)) .numbers_table tr:nth-child(3) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(4)) .numbers_table tr:nth-child(4) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(5)) .numbers_table tr:nth-child(5) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(6)) .numbers_table tr:nth-child(6) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(7)) .numbers_table tr:nth-child(7) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(8)) .numbers_table tr:nth-child(8) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(9)) .numbers_table tr:nth-child(9) { 
+    display: table-row; 
+}
+
+.table_wrapper:has(.winners_table tr:nth-child(10)) .numbers_table tr:nth-child(10) { 
+    display: table-row; 
+}
+
+/* ---------- СТИЛИ ТАБЛИЦ ---------- */
+.numbers_table {
+    font-size: 1.6rem;
+    width: 2rem;
+    border-right: none;
+    border-collapse: collapse;
+    
+    th {
+        text-transform: capitalize;
+        text-align: center;
+        border: 3px solid rgb(154, 151, 151);
+        border-right: none;
+        padding: 1rem;
+        height: 5rem;
+        align-items: center;
+        background: rgb(155, 120, 142);
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+        color: #fff;
+        border: 3px solid rgb(154, 151, 151);
+        border-right: none;
+        padding: 1rem;
+        height: 2rem;
+    }
+}
+
+.winners_table {
+    font-size: 1.6rem;
+    width: 50%;
+    border: 1px solid red;
+    border-collapse: collapse;
+    
+    th {
+        text-transform: capitalize;
+        border: 3px solid rgb(154, 151, 151);
+        padding: 1rem;
+        height: 5rem;
+        align-items: center;
+        background: rgb(155, 120, 142);
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+        color: #fff;
+        border: 3px solid rgb(154, 151, 151);
+        
+        svg {
+            width: 3.4rem;
+        }
+    }
+}

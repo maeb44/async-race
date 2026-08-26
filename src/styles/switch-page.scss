@@ -1,0 +1,28 @@
+@mixin flexcenter{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+$btn-color : linear-gradient(60deg,rgb(248, 208, 231),rgb(229, 182, 189),rgb(248, 208, 231));
+$main-font : Roboto;
+$font-color : #1f0788;
+
+
+.switch-page_div{
+		@include flexcenter();
+		gap: 2rem;
+	.switch-page_btn{
+		font-size: 1.2rem;
+		border-radius: 2px;
+		transition:  transform 0.3s;
+		font-weight: 700;
+		color: $font-color;
+		font-family: $main-font;
+		text-transform: uppercase;
+		background: $btn-color;
+		border: 0;
+		width: 7rem;
+		height: 2rem;
+	}
+}

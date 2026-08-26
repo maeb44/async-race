@@ -1,24 +1,39 @@
 import type { Winner } from "../constant-varible.js";
 import { WINNERS_URL } from "../constant-varible.js";
-import type { WinnerParams } from "../constant-varible.js";
+import type { WinnerParameters } from "../constant-varible.js";
+import type { ApiResponse } from "../constant-varible.js";
+import { getCarById } from "./garage.js";
 
-export async function getWinners( page:number = 1, limit:number = 10, sort: 'id'|'wins'|'time' = 'wins',order:'ASC'|'DESC' = 'ASC'):Promise<Winner[]>{
+
+export async function getWinners( page:number = 1, limit:number = 10, sort: 'id'|'wins'|'time' = 'wins',order:'ASC'|'DESC' = 'ASC'):Promise<ApiResponse<Winner>>{
 	try{
 		const url = WINNERS_URL;
 		const winURL = new URL(`${url}`)
 
 		winURL.searchParams.set('_page',String(page))
 		winURL.searchParams.set('_limit',String(limit))
-		winURL.searchParams.set('_sort',String(sort))
-		winURL.searchParams.set('_order',String(order))
+		winURL.searchParams.set('_sort',sort)
+		winURL.searchParams.set('_order',order)
 
 		const response = await fetch(winURL.href)
 
 		if(!response.ok){
 			throw new Error(`HTTP ошибка: ${response.status}`)
 		}
-		const data = await response.json()
-		return data; 
+		const data:Winner[] = await response.json()
+		await Promise.all(
+			data.map(async winner => {
+				const winnerProperties = await getCarById(winner.id);
+				Object.assign(winner, winnerProperties);
+			})
+		);
+
+		const totalCars:number = Number(await response.headers.get('X-Total-Count')) || 0;
+		return {
+			data,
+			total:totalCars,
+			page: page,
+		};
 	}
 	catch(error){
 		console.error(`Ошибка в getWinners:`,error)
@@ -84,7 +99,7 @@ export async function deleteWinner(id:number):Promise<boolean | void>{
 		throw(error)
 	}
 }
-export async function updateWinner(winnerParams:WinnerParams,id:number):Promise<false | Winner> {
+export async function updateWinner(winnerParameters:WinnerParameters,id:number):Promise<false | Winner> {
 		try{
 		const url = WINNERS_URL;
 		const carURL = new URL(`${url}/${id}`)
@@ -94,7 +109,7 @@ export async function updateWinner(winnerParams:WinnerParams,id:number):Promise<
 			headers:{
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(winnerParams),
+			body: JSON.stringify(winnerParameters),
 		})
 
 		if (response.status === 404) {
@@ -114,8 +129,3 @@ export async function updateWinner(winnerParams:WinnerParams,id:number):Promise<
 	}
 }
 
-await updateWinner({
-	wins:10,
-	time:231
-},2)
-console.log(await getWinners())

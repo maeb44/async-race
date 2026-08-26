@@ -1,11 +1,11 @@
 import { ENGINE_URL } from "../constant-varible.js";
 import type { EngineResponse } from "../constant-varible.js";
 
-export async function startEngineById(id:number,  ):Promise<false | EngineResponse> {
+export async function startEngineById(id:string,  ):Promise<false | EngineResponse> {
 	try{
 		const status = 'started'
 		const carURL = new URL(ENGINE_URL)
-		carURL.searchParams.set('id',String(id))
+		carURL.searchParams.set('id',id)
 		carURL.searchParams.set('status',status)
 
 		const response = await fetch(carURL.href,{
@@ -34,11 +34,11 @@ export async function startEngineById(id:number,  ):Promise<false | EngineRespon
 		throw error;
 	}
 }
-export async function stopEngineById(id:number):Promise<false | EngineResponse> {
+export async function stopEngineById(id:string):Promise<false | EngineResponse> {
 	try{
 		const status = 'stopped'
 		const carURL = new URL(ENGINE_URL)
-		carURL.searchParams.set('id',String(id))
+		carURL.searchParams.set('id',id)
 		carURL.searchParams.set('status',status)
 
 		const response = await fetch(carURL.href,{
@@ -68,11 +68,11 @@ export async function stopEngineById(id:number):Promise<false | EngineResponse> 
 	}
 }
 // eslint-disable-next-line unicorn/consistent-boolean-name
-export async function drive(id:number):Promise<boolean>{
+export async function drive(id:string):Promise<boolean>{
 	try{
 		const status = 'drive'
 		const carURL = new URL(ENGINE_URL)
-		carURL.searchParams.set('id',String(id))
+		carURL.searchParams.set('id',id)
 		carURL.searchParams.set('status',status)
 
 		const response = await fetch(carURL.href,{
