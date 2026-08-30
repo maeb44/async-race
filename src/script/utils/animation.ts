@@ -1,6 +1,6 @@
 
-const button = document.querySelector('#startEngine')
-const car = document.querySelector('#car')
+// const button = document.querySelector('#startEngine')
+// const car = document.querySelector('#car')
 
 // if(button){
 // button.addEventListener('click',(e)=>{
@@ -17,5 +17,8 @@ const car = document.querySelector('#car')
 //     requestAnimationFrame(step); // вызываем следующий кадр
 //   }
 // }
+
+
+
 
 

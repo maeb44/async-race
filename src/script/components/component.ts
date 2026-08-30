@@ -1,42 +1,72 @@
-export class Component<T = {}>{
-	state: object;
-	props: T;
-	element: HTMLElement;
+import type { IComponent } from "../constant-varible.js";
+import {  Store } from "../state/state.js";
+import type { AppState } from "../constant-varible.js";
 
-	constructor(properties:T){
+export class Component<P = {}> implements IComponent<P>{
+	
+	private _unsubscribe?:()=>void;
+	state: AppState;
+	props: P;
+	element: HTMLElement;	
+	
+	constructor(properties:P,store?:Store<AppState> | undefined){
 		this.props = properties;
-		this.state = {}
+    this.state = {
+      carsPage: { data: [], total: 0, page: 1 },
+      winnersPage: { data: [], total: 0, page: 1 },
+      selectCar: undefined,
+      currentPage: 'carsPage'
+    };
 		this.element = document.createElement('div')
+		if(store){
+			this._unsubscribe = store.subscribe((newState)=>{
+				this.setState(newState);
+
+			});
+			this.state = store.getState();
+		}
 	}
 
-		setState(newState:object):void{
-			const previousState = {...this.state};
+		setProps(newProperties: Partial<P>): void {
+				this.props = {...this.props, ...newProperties}
+				this.update();
+		}
+
+		setState(newState:Partial<AppState>):void{
 			this.state = {...this.state,...newState};
-			this.onStateChange(previousState,this.state);
+			this.onStateChange();
 			this.update();
 		}
-		onStateChange(_previousState:object,_newState:object):void{}
+		onStateChange():void{
+
+		}
 
 		onMount():void{};
-		onUnmount():void{};
+		onUnmount():void{
+			if(this._unsubscribe){
+				this._unsubscribe();
+			}
+		};
 
 		render():string{
 			return''
 		}
-		update(){
+
+		update():void{
 			this.element.innerHTML = this.render();
 			this.afterRender();
 		}
 
 		afterRender():void{};
 
-		mount<C extends HTMLElement>(container:C){
+		mount<C extends HTMLElement>(container:C):void{
 			this.update();
 			container.append(this.element);
 			this.onMount();
 		}
-		unmount(){
+		unmount():void{
 			this.onUnmount();
 			this.element.remove();
 		}
 }
+

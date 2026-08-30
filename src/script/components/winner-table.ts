@@ -1,8 +1,8 @@
 import type { Winner } from "../constant-varible.js";
-import type { ApiResponse } from "../constant-varible.js";
 import { Component } from "./component";
 import { SVG } from "../constant-varible.js";
 import { createCarstroke } from "../utils/create-stroke.js";
+import { AppStore } from "../state/state.js";
 
 
 
@@ -25,24 +25,25 @@ export class CarStroke extends Component<Winner>{
 }
 
 
-export class winnerTable extends Component<ApiResponse<Winner>>{
-	constructor(Response:ApiResponse<Winner>){
-		super(Response)
-	}
+export class winnerTable extends Component<{}>{
+	constructor(){
+		super({},AppStore)
+		this.element.classList.add('winners_div')
+		}
   render(): string {
-        const startNumber = (this.props.page - 1) * 10 + 1;
-
-        const itemsOnPage = Math.min(10, this.props.total - (this.props.page - 1) * 10);
-        
+		const storeState = AppStore.getState();
+      if (storeState.winnersPage.data.length !== this.state.winnersPage.data.length) {
+  	  this.state = { ...this.state, ...storeState };
+    }
+        const startNumber = (this.state.winnersPage.page - 1) * 10 + 1;
+        const itemsOnPage = Math.min(10, this.state.winnersPage.total - (this.state.winnersPage.page - 1) * 10);
         const numbersHtml = Array.from(
             { length: itemsOnPage },
             (_, index) => `<tr><td>${startNumber + index}</td></tr>`
         ).join('');
-        
         return `
-            <div class="winners_div">
-                <h1>Winners(<span id="quntityOfWinnersCars">${this.props.total}</span>)</h1>
-                <p class="page_p">Page #<span id="numberOfWinnerPage">${this.props.page}</span></p>
+                <h1>Winners(<span id="quntityOfWinnersCars">${this.state.winnersPage.total}</span>)</h1>
+                <p class="page_p">Page #<span id="numberOfWinnerPage">${this.state.winnersPage.page}</span></p>
                 <div class="table_wrapper">
                     <table class="numbers_table">
                         <thead>
@@ -62,12 +63,11 @@ export class winnerTable extends Component<ApiResponse<Winner>>{
                             </tr>
                         </thead>
                         <tbody>
-                            ${createCarstroke(this.props.data, CarStroke)}
+                            ${createCarstroke(this.state.winnersPage.data, CarStroke)}
                         </tbody>
                     </table>
                 </div>
-            </div>
         `;
-    }
+  }
 	afterRender(): void {}
 }

@@ -25,7 +25,12 @@ export interface WinnerParameters{
 export interface Routes {
 	[key:string]: () => void;
 }
-
+export interface AppState {
+	carsPage:ApiResponse<Car>;
+	winnersPage:ApiResponse<Winner>;
+	selectCar: Car | undefined;
+	currentPage: 'carsPage' | 'winnersPage';
+}
 
 
 
@@ -35,10 +40,24 @@ export interface ApiResponse<T> {
   page: number;
 }
 
-interface ComponentWithRender{
-	render: () => string;
+export interface IComponent<P={},S={}>{
+
+	props:P;
+	state:Partial<S>;
+	element:HTMLElement
+
+	setState(newState: Partial<S>): void;
+  setProps(newProperties: Partial<P>): void;
+  onStateChange(previousState: Partial<S>, newState: Partial<S>): void;
+	onMount():void;
+	onUnmount():void;
+	render():string;
+	update():void;
+	afterRender():void;
+	mount<C extends HTMLElement>(container: C):void;
+	unmount():void;
 }
-export type ComponentConstructor<T> = new (properties:T) => ComponentWithRender;
+export type ComponentConstructor<P = {}, S = {}> = new (properties:P) => IComponent<P,S>;
 
 
 

@@ -2,10 +2,12 @@ import { GARAGE_URL } from "../constant-varible.js";
 import type { Car } from "../constant-varible.js";
 import type { CarParameters } from "../constant-varible.js";
 import type { ApiResponse } from "../constant-varible.js";
+import { AppStore } from "../state/state.js";
 
 
-export async function getCars( page:number = 1, limit:number = 7):Promise<ApiResponse<Car>>{
+export async function getCars( page:number = 1, limit:number = 7):Promise<void | ApiResponse<Car>> {
 	try{
+		if(page<1) return
 		const url = GARAGE_URL;
 		const carURL = new URL(`${url}`)
 
@@ -18,8 +20,19 @@ export async function getCars( page:number = 1, limit:number = 7):Promise<ApiRes
 			throw new Error(`HTTP ошибка: ${response.status}`)
 		}
 		const data:Car[] = await response.json()
+
+
+
 		const totalCars:number = Number(await response.headers.get('X-Total-Count')) || 0;
 		
+		if(data.length === 0 && totalCars >= 1) return
+
+		AppStore.setState({carsPage:{
+			data,
+			total:totalCars,
+			page: page,
+		}})
+
 		return {
 			data,
 			total:totalCars,
