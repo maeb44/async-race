@@ -13,7 +13,6 @@ export class SwitchPage extends Component<object>{
 			return `
 					<button id="back" class="switch-page_btn">back</button>
 					<button id="next" class="switch-page_btn">next</button>
-
 			`
 	}
 	afterRender(): void {}

@@ -14,8 +14,8 @@ export class RaceInput extends Component<object>{
 	render(): string {
 			return `
 			<div class="input_wrapper">
-				<input class = "create_input" type="text" name="carName"> 
-				<input class = "create_color" type="color" name="carColor" >
+				<input class = "create_input" type="text" name="carName" value="${this.state.inputField?.name || ""}"> 
+				<input class = "create_color" type="color" name="carColor" value="${this.state.inputField?.color || '#000000'}">
 				<button class="input_btn create_btn">create</button>
 			</div>
 			<div class="input_wrapper" >
@@ -24,8 +24,8 @@ export class RaceInput extends Component<object>{
 				<button class="input_btn update_btn" ${this.state.selectCar ? '' : 'disabled'}>update</button>
 			</div>
 			<div class="btn_control_div">
-			<button class="control_btn">race</button>
-			<button class="control_btn">reset</button>
+			<button class="control_btn" id="race">race</button>
+			<button class="control_btn" ${this.state.positionOfCars.filter(element=>element.position !='50px').length===0 ? 'disabled':''} id="resetRace">reset</button>
 			<button class="generate_btn">generate cars</button>
 		</div>
 			`
@@ -38,8 +38,10 @@ export class RaceInput extends Component<object>{
 }
 
 export class CarCard extends Component<Car>{
+	private position: string | undefined
 	constructor(CarProperties:Car){
 		super(CarProperties)
+		this.position = AppStore.getState().positionOfCars.find(element=>element.id==this.props.id)?.position || '50px'
 	}
 	render(): string {
 			return `
@@ -50,10 +52,10 @@ export class CarCard extends Component<Car>{
 						<p id="car-name">${this.props.name}</p>
 					</div>
 					<div class="engine_control">
-						<button class="start-engine" >A</button>
-						<button class="stop-engine" disabled>B</button>
+						<button class="start-engine" ${this.position=='50px' ? '' : 'disabled'}>A</button>
+						<button class="stop-engine" ${this.position=='50px' ? 'disabled' : ''}>B</button>
 					</div>
-					<div class="car" style="left: 50px; color:${this.props.color}">
+					<div class="car"  style="left: ${this.position || `50px`}; color:${this.props.color}">
 						${SVG}
 					</div>
 				</div>
@@ -67,7 +69,7 @@ export class garageView extends Component<{}>{
 		this.element.classList.add('garage_div')
 	}
 	render(): string {
-		
+
 			return `
 				<h1>Garage(<span id="quntityOfCars">${this.state.carsPage?.total}</span>)</h1>
 				<p class="page_p">Page #<span id="numberOfPage">${this.state.carsPage?.page}</span></p>

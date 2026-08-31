@@ -4,23 +4,7 @@ import '../styles/input.scss'
 import '../styles/garage.scss'
 import '../styles/winners.scss'
 import '../styles/switch-page.scss'
-
-
-import './api/garage.ts'
-import './api/engine.ts'
-import './api/winners.ts'
-import './utils/animation.ts'
-import './utils/create-cards.ts'
-import './components/component.ts'
-import './pages/garage-page.ts'
-import './pages/winners-page.ts'
-import './utils/create-stroke.ts'
-// import { Router } from './router/router.ts'
-// import { Header } from './components/header.ts'
-// import { RaceInput, garageView } from "./components/garage.js";
-// import { getCars } from "./api/garage.js";
-// import { SwitchPage } from "./components/switch-page.js";
-// import type { ComponentConstructor, IComponent } from './constant-varible.ts'
+import '../script/api/winners.ts'
 import { GaragePage } from './pages/garage-page.ts'
 import { WinnerPage } from './pages/winners-page.ts'
 import { AppStore } from './state/state.ts'
@@ -49,7 +33,6 @@ class App {
 
 	}
 	private init():void{
-
 		this.container?.addEventListener('click',async (event: PointerEvent) => {
 			await Listener(event);
 		})
@@ -73,7 +56,7 @@ class App {
 		
 		break;
 		}
-		// No default
+
 		}
 	}
 

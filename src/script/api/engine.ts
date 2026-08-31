@@ -1,5 +1,6 @@
 import { ENGINE_URL } from "../constant-varible.js";
 import type { EngineResponse } from "../constant-varible.js";
+export const controllers = new Map<string,AbortController>();
 
 export async function startEngineById(id:string,  ):Promise<false | EngineResponse> {
 	try{
@@ -69,6 +70,12 @@ export async function stopEngineById(id:string):Promise<false | EngineResponse> 
 }
 // eslint-disable-next-line unicorn/consistent-boolean-name
 export async function drive(id:string):Promise<boolean>{
+	if(controllers.has(id)){
+		controllers.get(id)?.abort()
+		controllers.delete(id)
+	}
+		const controller = new AbortController()
+		controllers.set(id,controller)
 	try{
 		const status = 'drive'
 		const carURL = new URL(ENGINE_URL)
@@ -77,22 +84,21 @@ export async function drive(id:string):Promise<boolean>{
 
 		const response = await fetch(carURL.href,{
 			method: 'PATCH',
+			signal: controller.signal,
 		})
 
-		if (response.status >= 400) {
-			console.warn(await response.text())
-			return false
-    }
-
-		if(!response.ok){
-			throw new Error(`HTTP ошибка: ${response.status}`)
-		}
-		return true
+		return !(response.status >= 400);
 	}
 	catch(error){
+		if(error instanceof Error && error.name === 'AbortError'){
+			console.log('отмена')
+			return false
+		}
 		console.error(`Ошибка в createCar:`,error)
 		throw error;
-	}
+	}finally {
+    controllers.delete(id);
+  }
 }
 
 

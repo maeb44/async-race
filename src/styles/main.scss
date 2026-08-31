@@ -22,6 +22,9 @@ body{
 	width:100%;
 	font-family: $main-font;
 }
+.blocked{
+	
+}
 html{
 	font-size: 10px;
 }
@@ -50,3 +53,23 @@ p{
 	margin: 0;
 	padding: 0;
 }
+body.blocked {
+    .input_btn,
+    .generate_btn,
+    .control_btn,
+    .remove_btn,
+    .select_btn {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+    .input_btn:disabled,
+    .generate_btn:disabled,
+    .control_btn:disabled,
+    .remove_btn:disabled,
+    .select_btn:disabled {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }

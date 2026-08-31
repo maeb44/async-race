@@ -66,8 +66,8 @@
 
 /* ---------- СТИЛИ ТАБЛИЦ ---------- */
 .numbers_table {
-    font-size: 1.6rem;
-    width: 2rem;
+    font-size: 1.3rem;
+		width: 1rem;
     border-right: none;
     border-collapse: collapse;
     
@@ -94,8 +94,8 @@
 }
 
 .winners_table {
-    font-size: 1.6rem;
-    width: 50%;
+    font-size: 1.3rem;
+    width: 50rem;
     border: 1px solid red;
     border-collapse: collapse;
     
@@ -106,16 +106,44 @@
         height: 5rem;
         align-items: center;
         background: rgb(155, 120, 142);
-    }
 
+    }
     td {
         text-align: center;
         vertical-align: middle;
         color: #fff;
         border: 3px solid rgb(154, 151, 151);
-        
         svg {
             width: 3.4rem;
         }
     }
+}
+#time,#wins{
+	position: relative;
+	cursor: pointer;
+}
+
+
+
+#time[data-sort="ASC"]::after,
+#wins[data-sort="ASC"]::after{
+		position: absolute;
+	  content: "⬆";
+    color: black;
+    font-size: 1.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+#time[data-sort="DESC"]::after,
+#wins[data-sort="DESC"]::after{
+    position: absolute;
+    content: "⬇";
+    color: black;
+    font-size: 1.4rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+#time[data-sort="DESC"]::after,
+#wins[data-sort="DESC"]::after{
+	
 }

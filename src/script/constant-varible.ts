@@ -27,9 +27,11 @@ export interface Routes {
 }
 export interface AppState {
 	carsPage:ApiResponse<Car>;
-	winnersPage:ApiResponse<Winner>;
+	winnersPage:WinnerResponse;
 	selectCar: Car | undefined;
 	currentPage: 'carsPage' | 'winnersPage';
+	positionOfCars: {id:string, position:string}[]
+	inputField: {name:string,color:string} | undefined;
 }
 
 
@@ -38,6 +40,10 @@ export interface ApiResponse<T> {
   data: T[];
   total: number;
   page: number;
+}
+interface WinnerResponse extends ApiResponse<Winner>{
+	sort:'id'|'wins'|'time',
+	order:'ASC'|'DESC'
 }
 
 export interface IComponent<P={},S={}>{
@@ -98,6 +104,118 @@ export const SVG : string = `<svg xmlns="http://www.w3.org/2000/svg" version="1.
 						<path d="M11035 1801 c-7 -12 -23 -144 -29 -243 -4 -77 -4 -78 19 -78 45 0 130 22 193 51 l64 29 -19 23 c-65 82 -198 227 -209 227 -7 0 -15 -4 -19 -9z"/>
 						</g>
 						</svg>`
+export const CARMARKS = [
+    // Европейские
+    'Aston Martin',
+    'Audi',
+    'Bentley',
+    'BMW',
+    'Bugatti',
+    'Citroen',
+    'Ferrari',
+    'Fiat',
+    'Jaguar',
+    'Lamborghini',
+    'Land Rover',
+    'Maserati',
+    'Maybach',
+    'Mercedes-Benz',
+    'Mini',
+    'Opel',
+    'Peugeot',
+    'Porsche',
+    'Renault',
+    'Rolls-Royce',
+    'Saab',
+    'Seat',
+    'Skoda',
+    'Smart',
+    'Volkswagen',
+    'Volvo',
+    
+    // Американские
+    'Buick',
+    'Cadillac',
+    'Chevrolet',
+    'Chrysler',
+    'Dodge',
+    'Ford',
+    'GMC',
+    'Hummer',
+    'Jeep',
+    'Lincoln',
+    'Pontiac',
+    'Tesla',
+    
+    // Азиатские
+    'Acura',
+    'Daihatsu',
+    'Honda',
+    'Hyundai',
+    'Infiniti',
+    'Isuzu',
+    'Kia',
+    'Lexus',
+    'Mazda',
+    'Mitsubishi',
+    'Nissan',
+    'Subaru',
+    'Suzuki',
+    'Toyota',
+    'Yamaha'
+];
+export const CARNAMES = [
+    // Audi
+    'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'Q3', 'Q5', 'Q7', 'Q8', 'RS6', 'TT', 'R8', 'e-tron',
+    
+    // BMW
+    '1 Series', '3 Series', '5 Series', '7 Series', 'X1', 'X3', 'X5', 'X6', 'X7', 'Z4', 'i3', 'i8', 'M3', 'M5',
+    
+    // Mercedes-Benz
+    'A-Class', 'C-Class', 'E-Class', 'S-Class', 'CLA', 'CLS', 'GLA', 'GLC', 'GLE', 'GLS', 'G-Class', 'AMG GT', 'Sprinter', 'V-Class',
+    
+    // Volkswagen
+    'Golf', 'Jetta', 'Passat', 'Tiguan', 'Touareg', 'Atlas', 'Polo', 'Beetle', 'Arteon', 'ID.3', 'ID.4', 'ID.Buzz', 'Scirocco', 'CC',
+    
+    // Toyota
+    'Camry', 'Corolla', 'Crown', 'Highlander', 'Land Cruiser', 'Prius', 'RAV4', 'Supra', 'Tacoma', 'Tundra', 'Yaris', 'Avalon', '4Runner', 'Sienna',
+    
+    // Honda
+    'Accord', 'Civic', 'CR-V', 'Fit', 'HR-V', 'Odyssey', 'Pilot', 'Ridgeline', 'Passport', 'Insight', 'Clarity', 'Prelude', 'S2000', 'NSX',
+    
+    // Nissan
+    'Altima', 'Armada', 'GT-R', 'Leaf', 'Maxima', 'Murano', 'Pathfinder', 'Rogue', 'Sentra', 'Skyline', 'Z', 'Qashqai', 'Juke', 'X-Trail',
+    
+    // Ford
+    'Bronco', 'Edge', 'Escape', 'Expedition', 'Explorer', 'F-150', 'Focus', 'Fusion', 'Maverick', 'Mustang', 'Ranger', 'Transit', 'Galaxy', 'Mondeo',
+    
+    // Chevrolet
+    'Blazer', 'Bolt', 'Camaro', 'Colorado', 'Corvette', 'Cruze', 'Equinox', 'Impala', 'Malibu', 'Silverado', 'Spark', 'Suburban', 'Tahoe', 'Trailblazer',
+    
+    // Kia
+    'Forte', 'K5', 'K7', 'K9', 'Niro', 'Optima', 'Rio', 'Sedona', 'Seltos', 'Soul', 'Sportage', 'Stinger', 'Telluride', 'Sorento',
+    
+    // Hyundai
+    'Elantra', 'Ioniq', 'Kona', 'Palisade', 'Santa Fe', 'Sonata', 'Tucson', 'Veloster', 'Accent', 'Azera', 'Genesis', 'Ioniq 5', 'Ioniq 6', 'Nexo',
+    
+    // Mazda
+    'CX-3', 'CX-5', 'CX-9', 'CX-30', 'MX-5', 'Mazda3', 'Mazda6', 'RX-7', 'RX-8', 'MX-30', 'CX-50', 'CX-60', 'CX-70', 'CX-80',
+    
+    // Lexus
+    'ES', 'GS', 'GX', 'IS', 'LC', 'LS', 'LX', 'NX', 'RC', 'RX', 'UX', 'LFA', 'LM', 'RZ',
+    
+    // Subaru
+    'Ascent', 'BRZ', 'Crosstrek', 'Forester', 'Impreza', 'Legacy', 'Outback', 'WRX', 'XV', 'Baja', 'Tribeca', 'SVX', 'Justy', 'Loyale',
+    
+    // Dodge
+    'Challenger', 'Charger', 'Durango', 'Hornet', 'Journey', 'Magnum', 'Neon', 'Ram', 'Viper', 'Avenger', 'Caliber', 'Dart', 'Nit', 'Stealth',
+    
+    // Jeep
+    'Cherokee', 'Compass', 'Gladiator', 'Grand Cherokee', 'Liberty', 'Renegade', 'Wagoneer', 'Wrangler', 'Commander', 'Patriot', 'Compass', 'Avenger',
+    
+ 
+];
+
 
 
 

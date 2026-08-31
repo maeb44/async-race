@@ -33,7 +33,7 @@ export class Store<T>{
 
 		this.state = {...this.state,...newState};
 
-			this.notify();
+		this.notify();
 
 		this.isUpdating = false;
 	}
@@ -50,8 +50,12 @@ export const AppStore = new Store<AppState>({
 	winnersPage:{
 		data: [],
 		total: 0,
-		page: 1
+		page: 1,
+		sort:'wins',
+		order:'DESC'
 	},
 	selectCar: undefined,
-	currentPage: 'carsPage'
+	currentPage: 'carsPage',
+	positionOfCars:[],
+	inputField:undefined
 })

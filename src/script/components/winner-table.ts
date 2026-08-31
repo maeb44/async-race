@@ -18,7 +18,7 @@ export class CarStroke extends Component<Winner>{
 								</td>
 								<td data-car-name="${this.props.name}">${this.props.name}</td>
 								<td data-car-wins="${this.props.wins}">${this.props.wins}</td>
-								<td data-car-time="${this.props.time}">${this.props.time}</td>
+								<td data-car-time="${this.props.time.toFixed(2)}">${this.props.time.toFixed(2)}</td>
 							</tr>
 			`
 	}
@@ -32,7 +32,7 @@ export class winnerTable extends Component<{}>{
 		}
   render(): string {
 		const storeState = AppStore.getState();
-      if (storeState.winnersPage.data.length !== this.state.winnersPage.data.length) {
+      if (JSON.stringify(storeState)!=JSON.stringify(this.state)) {
   	  this.state = { ...this.state, ...storeState };
     }
         const startNumber = (this.state.winnersPage.page - 1) * 10 + 1;
@@ -58,8 +58,8 @@ export class winnerTable extends Component<{}>{
                             <tr>
                                 <th>car</th>
                                 <th>name</th>
-                                <th>wins</th>
-                                <th>Best time(sec)</th>
+                                <th id="wins" data-sort="${this.state.winnersPage.order}">wins</th>
+                                <th id="time" data-sort="${this.state.winnersPage.order}">Best time(sec)</th>
                             </tr>
                         </thead>
                         <tbody>

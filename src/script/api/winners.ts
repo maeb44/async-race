@@ -6,7 +6,7 @@ import { AppStore } from "../state/state.js";
 import { getCarById } from "./garage.js";
 
 
-export async function getWinners( page:number = 1, limit:number = 10, sort: 'id'|'wins'|'time' = 'wins',order:'ASC'|'DESC' = 'ASC'):Promise<void | ApiResponse<Winner>>{
+export async function getWinners( page:number = 1, limit:number = 10, sort: 'id'|'wins'|'time' = 'wins',order:'ASC'|'DESC' = 'DESC'):Promise<void | ApiResponse<Winner>>{
 	try{
 		if(page<1) return
 		const url = WINNERS_URL;
@@ -31,14 +31,11 @@ export async function getWinners( page:number = 1, limit:number = 10, sort: 'id'
 		AppStore.setState({winnersPage:{
 					data,
 					total:totalCars,
-					page: page,
+					page,
+					sort,
+					order
 				}})
-
-		return {
-			data,
-			total:totalCars,
-			page: page,
-		};
+		return {data,total:totalCars,	page: page,};
 	}
 	catch(error){
 		console.error(`Ошибка в getWinners:`,error)
@@ -50,11 +47,14 @@ export async function getWinnerById(id:number):Promise<Winner | false>{
 		const winURL = new URL(`${WINNERS_URL}/${id}`)
 
 		const response = await fetch(winURL.href)
+        if (response.status === 404) {
+            return false;
+        }
 
-		if(!response.ok){
-			console.warn(response.statusText,`car with id ${id}`)
-			return false;
-		}
+        if (!response.ok) {
+            console.warn(`Ошибка ${response.status}: ${response.statusText} для car ${id}`);
+            return false;
+        }
 		const data = await response.json()
 		return data; 
 	}
@@ -87,7 +87,6 @@ export async function createWinner(winner:Winner):Promise<Winner | false>{
 		throw error;
 	}
 }
-
 export async function deleteWinner(id:number | string):Promise<boolean | void>{
 	try{
 		const url = new URL(`${WINNERS_URL}/${id}`)
@@ -105,7 +104,7 @@ export async function deleteWinner(id:number | string):Promise<boolean | void>{
 	}
 }
 export async function updateWinner(winnerParameters:WinnerParameters,id:number):Promise<false | Winner> {
-		try{
+	try{
 		const url = WINNERS_URL;
 		const carURL = new URL(`${url}/${id}`)
 
@@ -133,5 +132,4 @@ export async function updateWinner(winnerParameters:WinnerParameters,id:number):
 		throw error;
 	}
 }
-
 
