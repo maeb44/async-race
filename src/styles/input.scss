@@ -1,0 +1,64 @@
+
+$btn-color : linear-gradient(60deg,rgb(248, 208, 231),rgb(229, 182, 189),rgb(248, 208, 231));
+$font-color : #1f0788;
+$control_btn : #842081;
+
+
+.race_input_div{
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 35rem;
+}
+.input_wrapper{
+	display: flex;
+	gap: 1rem;
+	height: 2.5rem;
+	input[type="text"]{
+		border-radius: 4px;
+		border: 0px;
+		width: 20rem;
+		color: $font-color;
+		font-weight: 500;
+	}
+	input[type="color"]{
+		border-radius: 4px;
+		color: $font-color;
+		font-weight: 500;
+	}
+	button{
+		color: $font-color;
+		font-weight: 600;
+		font-size: 1rem;
+		background: $btn-color;
+		border: 0;
+		border-radius: 3px;
+		width: 8rem;
+		text-transform: uppercase;
+	}
+}
+
+
+
+.btn_control_div{
+	gap: 0.4rem;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	.control_btn,.generate_btn{
+		border-radius: 3px;
+		border: 0;
+		font-size: 0.9rem;
+		font-weight: 600;
+		height: 2.2rem;
+		color: $font-color;
+		background: $btn-color;
+		text-transform: uppercase;
+	}
+	.control_btn{
+		flex-grow: 1;
+	}
+	.generate_btn{
+		flex-grow: 1.1;
+	}
+}

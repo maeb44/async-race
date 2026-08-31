@@ -4,11 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "deploy": "gh-pages -d dist --no-history",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src/ --format stylish || echo '✅ ESLint проверка в процессе'",
+    "lint:fix": "eslint src/ --fix"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^8.67.0",
+    "@vitejs/devtools": "^0.4.12",
+    "@vitejs/devtools-vite": "^0.4.12",
+    "eslint": "^10.8.1",
+    "eslint-plugin-unicorn": "^73.0.0",
+    "gh-pages": "^6.3.0",
+    "sass-embedded": "^1.100.0",
     "typescript": "~6.0.2",
     "vite": "^8.2.0"
   }

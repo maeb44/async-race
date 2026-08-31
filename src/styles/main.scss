@@ -1,0 +1,75 @@
+*{
+	box-sizing: border-box;
+}
+
+$main-font : Roboto;
+$white-font :#fff;
+
+#app{
+	display: flex;
+	flex-direction: column;
+	gap: 4rem;
+	width:100%;
+}
+body{
+	padding: 1rem 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 4rem;
+	margin: 0;
+	background: rgb(34, 34, 34);
+	height: 100%;
+	width:100%;
+	font-family: $main-font;
+}
+.blocked{
+	
+}
+html{
+	font-size: 10px;
+}
+button{
+	transition: transform 0.1s;
+	&:hover{
+		cursor: pointer;
+		transform: scale(1.04);
+	}
+	&:active{
+		transform: scale(0.95);
+	}
+	&:disabled {
+    color: #9e9e9e;
+    border-color: #bdbdbd;
+		pointer-events: none;
+	}
+}
+h1{
+	font-size: 2.4rem;
+	color: $white-font;
+	margin: 0;
+	padding: 0;
+}
+p{
+	margin: 0;
+	padding: 0;
+}
+body.blocked {
+    .input_btn,
+    .generate_btn,
+    .control_btn,
+    .remove_btn,
+    .select_btn {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+    .input_btn:disabled,
+    .generate_btn:disabled,
+    .control_btn:disabled,
+    .remove_btn:disabled,
+    .select_btn:disabled {
+        pointer-events: none;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
